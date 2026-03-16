@@ -1,0 +1,7 @@
+anthropic
+requests
+httpx
+msal
+python-dotenv
+schedule
+pytest
