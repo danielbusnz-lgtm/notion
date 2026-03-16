@@ -44,4 +44,22 @@ def main():
     except Exception as e:
         print(f'Error: {e}')
 
+
+def get_attachments(message_id, headers):
+    endpoint = f'{MS_GRAPH_BASE_URL}/me/messages/{message_id}/attachments'
+    response = httpx.get(endpoint, headers=headers, timeout=10.0)
+
+    if response.status_code != 200:
+        raise Exception(f'Failed to retrieve attachments: {response.text}')
+
+    attachments = []
+    for attachment in response.json().get('value', []):
+        attachments.append({
+            'name': attachment['name'],
+            'content_type': attachment['contentType'],
+            'content_bytes': attachment['contentBytes']
+        })
+    return attachments
+
+
 main()
